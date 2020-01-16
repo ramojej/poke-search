@@ -7,7 +7,9 @@ export default class Search extends Component {
   };
 
   static propTypes = {
-    searchPokemon: PropTypes.func.isRequired
+    searchPokemon: PropTypes.func.isRequired,
+    clearPokemon: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired
   };
 
   onSubmit = e => {
@@ -16,6 +18,7 @@ export default class Search extends Component {
       alert('Should not be empty');
     } else {
       this.props.searchPokemon(this.state.text);
+      this.setState({ text: '' });
     }
   };
 
@@ -24,6 +27,8 @@ export default class Search extends Component {
   };
 
   render() {
+    const { showClear, clearPokemon } = this.props;
+
     return (
       <div>
         <form onSubmit={this.onSubmit} className="form">
@@ -36,6 +41,7 @@ export default class Search extends Component {
           />
           <input type="submit" value="Search" className="btn" />
         </form>
+        {showClear && <button onClick={clearPokemon}>Clear</button>}
       </div>
     );
   }

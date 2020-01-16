@@ -30,12 +30,15 @@ export default class App extends Component {
 
     try {
       const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${text}`);
-      console.log(res.data);
       this.setState({ loading: false, pokemon: res.data, error: null });
     } catch (error) {
       this.setState({ error: error.message });
       this.setState({ loading: false, pokemon: null });
     }
+  };
+
+  clearPokemon = () => {
+    this.setState({ pokemon: null, loading: false });
   };
 
   render() {
@@ -44,7 +47,11 @@ export default class App extends Component {
     return (
       <div className="App">
         <h2>PokeSearch</h2>
-        <Search searchPokemon={this.searchPokemon} />
+        <Search
+          searchPokemon={this.searchPokemon}
+          clearPokemon={this.clearPokemon}
+          showClear={pokemon != null ? true : false}
+        />
         {error && <h3>No Pokemon Found</h3>}
         {pokemon && <Pokemon pokemon={pokemon} loading={loading} />}
       </div>
