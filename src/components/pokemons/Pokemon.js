@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import Spinner from '../layout/Spinner';
+import MyLoader from '../layout/myLoader';
+//import Spinner from '../layout/Spinner';
+import Stats from './Stats';
 
 export default class Pokemon extends Component {
   render() {
     console.log(this.props);
     const {
       abilities,
+      stats,
+      types,
       name,
       height,
       weight,
@@ -15,7 +19,7 @@ export default class Pokemon extends Component {
 
     const { loading } = this.props;
 
-    if (loading) return <Spinner />;
+    if (loading) return <MyLoader />;
 
     return (
       <div>
@@ -23,11 +27,21 @@ export default class Pokemon extends Component {
         <p>Order: {order}</p>
         <img src={image} alt={name} />
         <p>
-          Abilities: {abilities.map(({ ability }) => ability.name).join(', ')}
+          Type:{' '}
+          {types
+            .map(
+              ({ type }) =>
+                type.name.charAt(0).toUpperCase() + type.name.slice(1)
+            )
+            .join(', ')}
         </p>
-        {console.log(abilities)}
+        <p>
+          {abilities.length > 1 ? 'Abilities: ' : 'Ability: '}
+          {abilities.map(({ ability }) => ability.name).join(', ')}
+        </p>
         <p>Height: {height}</p>
         <p>Weight: {weight}</p>
+        <Stats stats={stats} />
       </div>
     );
   }
